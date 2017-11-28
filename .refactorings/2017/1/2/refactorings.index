@@ -1,0 +1,12 @@
+1484245975126	Rename type 'AsignaturaTest'
+1484246349627	Delete element
+1484246381427	Rename type 'AsigTestPruebas'
+1484307788766	Delete element
+1484307831438	Delete element
+1484309588969	Rename type 'testAsignaturaAislamiento'
+1484309604970	Rename type 'testSecuenciaAsignatura'
+1484309617264	Rename type 'testAislamientoAsignatura'
+1484425577543	Delete element
+1484495530588	Extract interface 'AsignaturaInterface'
+1484495542769	Move compilation unit
+1484495566732	Delete element

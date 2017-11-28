@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="practica3" default="ejecutarPruebasSecuencia" basedir=".">
+
+	<property name="docDir" value="doc" />
+	<property name="srcWwindows" value="src\\main\\java" />
+	<property name="srcUnix" value="src/main/java" />
+
+	<condition property="isWindows">
+		<os family="windows" />
+	</condition>
+
+	<condition property="isUnix">
+		<os family="unix" />
+	</condition>
+
+	<target name="compilar_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn compile" />
+		</exec>
+	</target>
+
+	<target name="compilar_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn compile'" />
+		</exec>
+	</target>
+
+
+	<target name="compilar">
+		<antcall target="compilar_windows">
+		</antcall>
+		<antcall target="compilar_unix">
+		</antcall>
+	</target>
+
+	<target name="ejecutarTodo" depends="compilar">
+		<antcall target="ejecutarTestTDD">
+		</antcall>
+		<antcall target="ejecutarTestEnAislamiento">
+		</antcall>
+		<antcall target="ejecutarPruebasSecuencia">
+		</antcall>
+	</target>
+
+	<target name="ejecutarTDD_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn -Dtest=testTDD test" />
+		</exec>
+	</target>
+
+	<target name="ejecutarTDD_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn -Dtest=testTDD test'" />
+		</exec>
+	</target>
+
+	<target name="ejecutarTestTDD" depends="compilar">
+		<antcall target="ejecutarTDD_windows">
+		</antcall>
+		<antcall target="ejecutarTDD_unix">
+		</antcall>
+	</target>
+
+	<target name="ejecutarAislamiento_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn -Dtest=testAislamiento test" />
+		</exec>
+	</target>
+
+	<target name="ejecutarAislamiento_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn -Dtest=testAislamiento test'" />
+		</exec>
+	</target>
+
+	<target name="ejecutarTestEnAislamiento" depends="compilar">
+		<antcall target="ejecutarAislamiento_windows">
+		</antcall>
+		<antcall target="ejecutarAislamiento_unix">
+		</antcall>
+	</target>
+
+	<target name="ejecutarSecuencia_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn -Dtest=testSecuencia test" />
+		</exec>
+	</target>
+
+	<target name="ejecutarSecuencia_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn -Dtest=testSecuencia test'" />
+		</exec>
+	</target>
+
+	<target name="ejecutarPruebasSecuencia" depends="compilar">
+		<antcall target="ejecutarSecuencia_windows">
+		</antcall>
+		<antcall target="ejecutarSecuencia_unix">
+		</antcall>
+	</target>
+
+	<target name="cobertura_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn emma:emma" />
+		</exec>
+	</target>
+
+	<target name="cobertura_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn emma:emma'" />
+		</exec>
+	</target>
+
+	<target name="obtenerInformaCobertura">
+		<antcall target="cobertura_windows">
+		</antcall>
+		<antcall target="cobertura_unix">
+		</antcall>
+	</target>
+
+	<target name="medidas_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn pmd:pmd" />
+		</exec>
+	</target>
+
+	<target name="medidas_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn pmd:pmd'" />
+		</exec>
+	</target>
+
+	<target name="medidas">
+		<antcall target="medidas_windows">
+		</antcall>
+		<antcall target="medidas_unix">
+		</antcall>
+	</target>
+
+	<target name="carpetaDoc">
+		<mkdir dir="doc" />
+	</target>
+
+	<target name="documentar_windows" description="generar documentacion" depends="carpetaDoc" if="isWindows">
+		<javadoc sourcepath="src\\main\\java" destdir="doc">
+		</javadoc>
+	</target>
+
+	<target name="documentar_unix" description="generar documentacion" depends="carpetaDoc" if="isUnix">
+		<javadoc sourcepath="src/main/java" destdir="doc">
+		</javadoc>
+	</target>
+
+	<target name="documentar" description="generar documentacion" depends="carpetaDoc">
+		<antcall target="documentar_windows">
+		</antcall>
+		<antcall target="documentar_unix">
+		</antcall>
+	</target>
+
+	<target name="limpiar_windows" if="isWindows">
+		<exec dir="." executable="cmd">
+			<arg line="/c mvn clean" />
+		</exec>
+	</target>
+
+	<target name="limpiar_unix" if="isUnix">
+		<exec dir="." executable="sh">
+			<arg line="-c 'mvn clean'" />
+		</exec>
+	</target>
+
+	<target name="limpiar">
+		<antcall target="limpiar_windows">
+		</antcall>
+		<antcall target="limpiar_unix">
+		</antcall>
+	</target>
+
+</project>
